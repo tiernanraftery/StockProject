@@ -38,8 +38,21 @@ data_load_state = st.text('Loading data...')
 data = load_data(selected_stock)
 data_load_state.text('Loading data... done!')
 
+#analize the data
 st.subheader('Raw data')
 st.write(data.tail())
+
+
+# Plot raw data
+def plot_raw_data():
+	fig = go.Figure()
+	fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+	fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+	fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+	st.plotly_chart(fig)
+      
+
+
 
 	
 
