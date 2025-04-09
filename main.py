@@ -3,8 +3,9 @@ from datetime import date
 
 
 import yfinance as yf
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly
+from prophet import Prophet
+
+from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
 START = "2019-01-01"
@@ -24,6 +25,24 @@ selected_stock = st.selectbox('Select stocks for prediction', stocks)
 n_years = st.slider('Years of prediction:', 1, 5)
 #calculate the period 
 period = n_years * 365
+
+#load the stock data
+@st.cache_data
+def load_data(ticker):
+    data = yf.download(ticker, START, TODAY)
+    data.reset_index(inplace=True) #put the date in the first column
+    return data
+
+#
+data_load_state = st.text('Loading data...')
+data = load_data(selected_stock)
+data_load_state.text('Loading data... done!')
+
+st.subheader('Raw data')
+st.write(data.tail())
+
+	
+
 
 
 
