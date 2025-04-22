@@ -6,6 +6,19 @@ from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 import plotly.express as px
 
+
+
+START = "2017-01-01"
+TODAY = date.today().strftime("%Y-%m-%d")
+
+st.title("Stock Price Prediction App")
+
+stocks = ("AAPL", "GOOG", "MSFT", "GME")
+selected_stock = st.selectbox("Select stock:", stocks)
+
+n_years = st.slider("Years to predict:", 1, 4)
+period = n_years * 365
+
 # Load example stock dataset from plotly
 df_test = px.data.stocks()
 
@@ -18,17 +31,6 @@ selected_stock = st.selectbox("Select stock from sample data:", stock_names)
 # Create a line chart for the selected stock
 fig = px.line(df_test, x='date', y=selected_stock, title=f'{selected_stock} Sample Plotly Chart')
 st.plotly_chart(fig)
-
-START = "2019-01-01"
-TODAY = date.today().strftime("%Y-%m-%d")
-
-st.title("Stock Price Prediction App")
-
-stocks = ("AAPL", "GOOG", "MSFT", "GME")
-selected_stock = st.selectbox("Select stock:", stocks)
-
-n_years = st.slider("Years to predict:", 1, 4)
-period = n_years * 365
 
 @st.cache_data
 def load_data(ticker):
